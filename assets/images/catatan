@@ -1,0 +1,55 @@
+//ON BODY CHILD
+//Image(image: AssetImage('assets/images/welcome.png'),)
+//Icon(Icons.airport_shuttle,color: Colors.lightBlue[400],size: 50.0,)
+//RaisedButton.icon(onPressed: () {print('you clicked me!');},icon: Icon(Icons.mail,color: Colors.white,), label: Text('EMail Me',style: TextStyle(color: Colors.white),),color: Colors.lightBlue[400],)
+/////////////////////////////////////////////////////////////MARGIN PADDING ETC/////////////////////////////////
+//=> Inside : body:Container()
+//Container(padding: EdgeInsets.all(10.0),margin: EdgeInsets.all(10.0),color: Colors.grey[400],child: Text('Hello?',style: TextStyle(fontSize: 18.0),),
+        )
+//=> Inside : body:Row()
+//Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Text('Push this ',style: TextStyle(fontSize: 18,color: Colors.grey[400]),),
+          FlatButton(
+            onPressed: (){},
+            color: Colors.lightBlue[300],
+            child:
+              Text('Click',style: TextStyle(fontSize: 18,color: Colors.white),),
+          ),
+          Container(
+            padding: EdgeInsets.all(10.0),
+            color: Colors.deepOrange,
+            child: Text('Container padding 20.0',style: TextStyle(fontSize: 18),),
+          )
+        ],
+      )
+//=> Inside : body:Column()
+Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          Container(
+              padding: EdgeInsets.all(10.0),
+              color: Colors.cyan,
+              child:Text('One')
+          ),Container(
+              padding: EdgeInsets.all(10.0),
+              color: Colors.amber,
+              child:Text('two')
+          ),Container(
+              padding: EdgeInsets.all(10.0),
+              color: Colors.tealAccent,
+              child:Text('three')
+          )
+        ],
+      )
+
+
+
+
+//END BODY
+
+//////////////////////////////////////////////////
+pubspec.yaml ===>
+1. - assets/images/welcome.png

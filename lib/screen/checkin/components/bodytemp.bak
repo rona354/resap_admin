@@ -1,0 +1,146 @@
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
+import 'package:resap_admin/models/nodestore.dart';
+import 'package:resap_admin/screen/components/menucardnode.dart';
+
+class Body extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // return Container(
+    //   child: ListView(
+    //     children: <Widget>[
+    //       MenuCardNode(
+    //         index: 1,
+    //         nodename: "Alfa Cikeas 1",
+    //         nodeaddress: "Cikeas Rayan No 1",
+    //         nodedistance: "1.2 Km",
+    //       ),
+    //       MenuCardNode(
+    //         index: 1,
+    //         nodename: "Alfa Cikeas 2",
+    //         nodeaddress: "Cikeas Rayan No 2",
+    //         nodedistance: "1.1 Km",
+    //       ),
+    //       MenuCardNode(
+    //         index: 1,
+    //         nodename: "Alfa Cikeas 3",
+    //         nodeaddress: "Cikeas Rayan No 3",
+    //         nodedistance: "500 m",
+    //       )
+    //     ],
+    //   ),
+    // );
+    return AllControlCheckin();
+  }
+}
+
+class AllControlCheckin extends StatefulWidget {
+  @override
+  _AllControlCheckinState createState() => _AllControlCheckinState();
+}
+
+class _AllControlCheckinState extends State<AllControlCheckin> {
+  List<NodeStore> nodes;
+  @override
+  void initState() {
+    super.initState();
+    print("Initial >>>>>>>>>>>>>>>>>>");
+    getAllNodes();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: ListView.builder(
+      itemCount: nodes.length,
+      itemBuilder: (context, index) {
+        NodeStore nodestore = nodes[index];
+        return MenuCardNode(
+          index: nodestore.idnode,
+          nodename: nodestore.nodename,
+          nodeaddress: nodestore.address,
+          nodedistance: nodestore.ndistance,
+        );
+      },
+    )
+        // ListView(
+        //   children: <Widget>[
+        //     MenuCardNode(
+        //       index: 1,
+        //       nodename: "Alfa Cikeas 1",
+        //       nodeaddress: "Cikeas Rayan No 1",
+        //       nodedistance: "1.2 Km",
+        //     ),
+        //     MenuCardNode(
+        //       index: 1,
+        //       nodename: "Alfa Cikeas 2",
+        //       nodeaddress: "Cikeas Rayan No 2",
+        //       nodedistance: "1.1 Km",
+        //     ),
+        //     MenuCardNode(
+        //       index: 1,
+        //       nodename: "Alfa Cikeas 3",
+        //       nodeaddress: "Cikeas Rayan No 3",
+        //       nodedistance: "500 m",
+        //     )
+        //   ],
+        // ),
+        );
+  }
+
+  getAllNodes() {
+    nodes = liststores;
+  }
+}
+
+// class AllControllListNode extends StatefulWidget {
+//   @override
+//   _AllControllListNodeState createState() => _AllControllListNodeState();
+// }
+
+// class _AllControllListNodeState extends State<AllControllListNode> {
+//   List<NodeStore> nodes;
+//   TextEditingController searchController = new TextEditingController();
+//   @override
+//   void initState() {
+//     super.initState();
+
+//     getAllNodes();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+// return Container(
+// child:ListView.builder(
+//     shrinkWrap: true,
+//     itemCount: nodes.length,
+//     itemBuilder: (context, index) {
+//       NodeStore nodestore = nodes[index];
+//       return ListTile(
+//           title: Text(nodestore.nodename),
+//           subtitle: Text(nodestore.address),
+//           leading: (nodestore.avatarpath != null &&
+//                   nodestore.avatarpath.length > 0)
+//               ? CircleAvatar(child: Text("A"))
+//               : CircleAvatar(
+//                   child: Text("B"),
+//                 ));
+//     },
+//   )
+
+//       child: ListView(
+//         children: [Text("TES"), Text("TES"), Text("TES")],
+//       ),
+//     );
+//   }
+
+//   getAllNodes() {
+//     // Iterable<NodeStore> noteStore = await Conacts
+//     // setState(() {
+
+//     // });
+//     nodes = liststores;
+//     // print(nodes.length);
+//   }
+// }

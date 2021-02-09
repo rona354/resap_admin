@@ -1,0 +1,504 @@
+import 'dart:async';
+import 'dart:ui';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:loading_overlay/loading_overlay.dart';
+import 'package:resap_admin/constant.dart';
+import 'package:resap_admin/menuitem.dart';
+import 'package:resap_admin/models/Store.dart';
+import 'package:resap_admin/screen/checkin/check_in_screen.dart';
+import 'package:resap_admin/screen/components/product_card.dart';
+import 'package:resap_admin/screen/dashboard/components/section_title.dart';
+import 'package:resap_admin/size_config.dart';
+
+import 'home_header.dart';
+
+class Body extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: AllControll(),
+    );
+  }
+}
+
+class AllControll extends StatefulWidget {
+  @override
+  _AllControllState createState() => _AllControllState();
+}
+
+class _AllControllState extends State<AllControll> {
+  bool isRetriveSuccess;
+  String greeting;
+  String userfullname;
+  String contract;
+  bool _isLoading = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("<<<< init dashboard state >>>>");
+    isRetriveSuccess = false;
+    greeting = "default";
+    userfullname = "unknown";
+    contract = "No Contract";
+    _isLoading = false;
+    var now = new DateTime.now();
+    var jam = now.hour;
+    print("<<<<$jam");
+    if (jam > 1 && jam < 11) {
+      print("Selamat Pagi");
+      greeting = "Selamat Pagi";
+    } else if (jam > 11 && jam < 15) {
+      greeting = "Selamat Siang";
+    } else if (jam > 15 && jam < 24) {
+      greeting = "Selamat Malam";
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LoadingOverlay(
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: getProportionateScreenWidth(7),
+            ),
+            HomeHeader(context),
+            SizedBox(
+              height: getProportionateScreenWidth(20),
+            ),
+            Container(
+                margin: EdgeInsets.symmetric(
+                    horizontal: getProportionateScreenWidth(20)),
+                padding: EdgeInsets.symmetric(
+                    horizontal: getProportionateScreenWidth(20),
+                    vertical: getProportionateScreenWidth(15)),
+                width: double.infinity,
+                // height: 90,
+                decoration: BoxDecoration(
+                    color: Colors.blueGrey,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(greeting,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold)),
+                    Text(userfullname,
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(this.contract,
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.orangeAccent)),
+                        RaisedButton(
+                          onPressed: () {
+                            print("Change State now");
+                            showOverlay();
+                          },
+                          textColor: Colors.white,
+                          padding: const EdgeInsets.all(0.0),
+                          color: kPrimaryColor,
+                          child: Container(
+                            padding: EdgeInsets.all(1.0),
+                            child: const Text('Reveral',
+                                style: TextStyle(fontSize: 16)),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                )),
+            SizedBox(
+              height: getProportionateScreenWidth(15),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: getProportionateScreenWidth(20)),
+                child: Row(
+                  children: <Widget>[
+                    MenuBtnFull(
+                      title: "Attendance",
+                      amount: "150",
+                      press: () {},
+                      unit: "Stores",
+                      type: 1,
+                      lmenuitem: menuitems1,
+                      contract: this.contract,
+                    ),
+                    MenuBtnFull(
+                      title: "Notes",
+                      amount: "0",
+                      press: () {},
+                      unit: "Notes",
+                      type: 2,
+                      lmenuitem: menuitems2,
+                      contract: this.contract,
+                    ),
+                    MenuBtnFull(
+                      title: "Stockist",
+                      amount: "0",
+                      press: () {},
+                      unit: "Unit",
+                      type: 3,
+                      lmenuitem: menuitems3,
+                      contract: this.contract,
+                    ),
+                    MenuBtnFull(
+                      title: "Tagging",
+                      amount: "0",
+                      press: () {},
+                      unit: "Loc",
+                      type: 4,
+                      lmenuitem: menuitems4,
+                      contract: this.contract,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: getProportionateScreenWidth(20),
+            ),
+            Container(
+                margin: EdgeInsets.symmetric(
+                    horizontal: getProportionateScreenWidth(20)),
+                padding: EdgeInsets.symmetric(
+                    horizontal: getProportionateScreenWidth(20),
+                    vertical: getProportionateScreenWidth(15)),
+                width: double.infinity,
+                // height: 90,
+                decoration: BoxDecoration(
+                    color: kPrimaryColor,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text("Current Work Location",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold)),
+                    Text("Alfa Cibubur",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)),
+                    Text("C0019928",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black45)),
+                  ],
+                )),
+            SizedBox(
+              height: getProportionateScreenWidth(20),
+            ),
+            SectionWidget(
+              text: "Product Info",
+              textmore: "More",
+              press: () {},
+            ),
+            SizedBox(
+              height: getProportionateScreenWidth(10),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: <Widget>[
+                  ...List.generate(
+                      demoProducts.length,
+                      (index) => ProductCard(
+                            product: demoProducts[index],
+                          )),
+                  SizedBox(
+                    width: getProportionateScreenWidth(20),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      isLoading: _isLoading,
+      progressIndicator: CircularProgressIndicator(
+        backgroundColor: kPrimaryColor,
+      ),
+    );
+  }
+
+  void showOverlay() {
+    setState(() {
+      _isLoading = true;
+    });
+
+    Future.delayed(Duration(seconds: 5), () {
+      setState(() {
+        setState(() {
+          userfullname = "Rahmat Kartolo";
+          contract = "34234234234235656";
+        });
+        _isLoading = false;
+      });
+    });
+  }
+}
+
+class MenuBtnFull extends StatefulWidget {
+  const MenuBtnFull({
+    Key key,
+    @required this.title,
+    @required this.amount,
+    @required this.unit,
+    @required this.press,
+    @required this.type,
+    @required this.contract,
+    this.lmenuitem,
+  }) : super(key: key);
+  final String title, amount, unit, contract;
+  final int type;
+  final GestureTapCallback press;
+  final List<MenuItem> lmenuitem;
+  @override
+  _MenuBtnFullState createState() => _MenuBtnFullState();
+}
+
+class _MenuBtnFullState extends State<MenuBtnFull> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+      child: SizedBox(
+          width: getProportionateScreenWidth(148),
+          height: getProportionateScreenWidth(90),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 1,
+                      offset: Offset(1, 1))
+                ]),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: getProportionateScreenWidth(1)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, top: 2),
+                        child: Text(
+                          widget.title,
+                          style: TextStyle(
+                              color: Colors.black38,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 0),
+                        child: PopupMenuButton<int>(
+                            onSelected: (value) {
+                              print(">>>>>> $value");
+                              switch (value) {
+                                case 1:
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) => CheckInScreen(
+                                              contract: widget.contract))).then(
+                                      onGoBack);
+                                  break;
+                                case 2:
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) => CheckInScreen(
+                                              contract: widget.contract)));
+                                  break;
+                                case 3:
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) => CheckInScreen(
+                                              contract: widget.contract)));
+                                  break;
+                                default:
+                                  break;
+                              }
+                            },
+                            elevation: 3.2,
+                            icon: Icon(
+                              Icons.more_vert,
+                              color: Colors.black26,
+                            ),
+                            itemBuilder: (BuildContext context) {
+                              return widget.lmenuitem.map((MenuItem menuitem) {
+                                return PopupMenuItem(
+                                  value: menuitem.realVal,
+                                  child: ListTile(
+                                    leading: Icon(
+                                      menuitem.iconVal,
+                                      size: 18,
+                                      color: Colors.black38,
+                                    ),
+                                    title: Text(
+                                      menuitem.menuVal,
+                                      style: TextStyle(color: Colors.black26),
+                                    ),
+                                  ),
+                                );
+                              }).toList();
+                            }),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, bottom: 10),
+                        child: Text(
+                          widget.amount,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(left: 10, bottom: 10),
+                          child: Text(" ")),
+                      Padding(
+                          padding: EdgeInsets.only(left: 10, bottom: 10),
+                          child: Text(widget.unit)),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          )),
+    );
+  }
+
+  FutureOr onGoBack(dynamic value) {
+    print("Balik aning");
+  }
+}
+
+class HelpInfoCard extends StatelessWidget {
+  const HelpInfoCard({
+    Key key,
+    @required this.categoy,
+    @required this.image,
+    @required this.numOfBrands,
+    @required this.press,
+  }) : super(key: key);
+  final String categoy, image, numOfBrands;
+  final GestureTapCallback press;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: getProportionateScreenWidth(15)),
+      child: SizedBox(
+        width: getProportionateScreenWidth(242),
+        height: getProportionateScreenWidth(100),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Stack(
+            children: [
+              Image.asset(
+                image,
+                fit: BoxFit.cover,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                      Color(0xFF343434).withOpacity(0.4),
+                      Color(0xFF343434).withOpacity(0.15)
+                    ])),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: getProportionateScreenWidth(15),
+                    vertical: getProportionateScreenWidth(10)),
+                child: Text.rich(
+                    TextSpan(style: TextStyle(color: Colors.white), children: [
+                  TextSpan(
+                    text: "$categoy\n",
+                    style: TextStyle(
+                        fontSize: getProportionateScreenWidth(18),
+                        fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: "$numOfBrands")
+                ])),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CategoryCard extends StatelessWidget {
+  const CategoryCard({
+    Key key,
+    @required this.icon,
+    @required this.text,
+    @required this.press,
+  }) : super(key: key);
+
+  final String icon, text;
+  final GestureTapCallback press;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: press,
+      child: SizedBox(
+        width: getProportionateScreenWidth(55),
+        child: Column(
+          children: <Widget>[
+            AspectRatio(
+              aspectRatio: 1,
+              child: Container(
+                padding: EdgeInsets.all(getProportionateScreenWidth(15)),
+                decoration: BoxDecoration(
+                    color: Color(0xFFFFECDF),
+                    borderRadius: BorderRadius.circular(10)),
+                child: SvgPicture.asset(icon),
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              text,
+              textAlign: TextAlign.center,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
