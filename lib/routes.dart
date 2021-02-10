@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:resap_admin/screen/activity/activity_screen.dart';
 
-import 'screen/checkin/check_in_screen.dart';
 import 'screen/checkin_detail/check_in_detail_screen.dart';
 import 'screen/checkout_detail/checkout_detail_screen.dart';
 import 'screen/dashboard/dashboard.dart';
@@ -30,7 +30,7 @@ final Map<String, WidgetBuilder> routes = {
   SignUpCompleteScreen.routeName: (context) => SignUpCompleteScreen(),
   SignUpSuccessScreen.routeName: (context) => SignUpSuccessScreen(),
   DashboardScreen.routeName: (context) => DashboardScreen(),
-  CheckInScreen.routeName: (context) => CheckInScreen(),
+  ActivityScreen.routeName: (context) => ActivityScreen(),
   CheckInDetailScreen.routeName: (context) => CheckInDetailScreen(
         args: null,
       ),

@@ -10,7 +10,7 @@ import 'package:resap_admin/menuitem.dart';
 import 'package:resap_admin/models/information.dart';
 import 'package:resap_admin/modelsfromjson/CurrentLocation.dart';
 import 'package:resap_admin/modelsfromjson/DashboardStatus.dart';
-import 'package:resap_admin/screen/checkin/check_in_screen.dart';
+import 'package:resap_admin/screen/activity/activity_screen.dart';
 import 'package:resap_admin/screen/checkout_detail/checkout_detail_screen.dart';
 import 'package:resap_admin/screen/components/information_card.dart';
 import 'package:resap_admin/screen/dashboard/components/section_title.dart';
@@ -43,6 +43,8 @@ class AllControll extends StatefulWidget {
 
 class _AllControllState extends State<AllControll> {
   // String tokenShare = "";
+  static final josKeys1 = GlobalKey();
+  static final josKeys2 = GlobalKey();
   bool isRetriveSuccess;
   List<MenuItem> menuAttend;
   List<Information> lInformation;
@@ -67,8 +69,8 @@ class _AllControllState extends State<AllControll> {
     if (!iscurrentcheckin) {
       setState(() {
         menuAttend = [
-          MenuItem("Check In", Icons.access_time, 1),
-          MenuItem("Leave Request", Icons.not_accessible, 2)
+          MenuItem("Activity", Icons.map_outlined, 1),
+          MenuItem("Attendance Report", Icons.library_books_outlined, 2)
         ];
       });
     }
@@ -77,174 +79,161 @@ class _AllControllState extends State<AllControll> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        // onVerticalDragUpdate: (DragUpdateDetails details) {
-        //   // print(">>>> direction ${details.globalPosition.direction}");
-        //   double distance = details.globalPosition.distance;
-        //   if (distance > 400.0) {
-        //     setState(() {
-        //       _isLoading = true;
-        //     });
-        //     Future.delayed(Duration(seconds: 1), () {
-        //       var contractnum = "2012010010010001";
-        //       saveContractPreference("2012010010010001")
-        //           .then((bool committed) {
-        //         this.changeStateContract(contractnum);
-        //       });
-        //     });
-        //   }
-        // },
-        // print("<<<< distance ${details.globalPosition.distance}");
-        child: SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          SizedBox(
-            height: getProportionateScreenWidth(7),
-          ),
-          HomeHeader(context, jumlahChat),
-          SizedBox(
-            height: getProportionateScreenWidth(20),
-          ),
-          Container(
-              margin: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(20)),
-              padding: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(20),
-                  vertical: getProportionateScreenWidth(15)),
-              width: double.infinity,
-              // height: 90,
-              decoration: BoxDecoration(
-                  color: Colors.blueGrey,
-                  borderRadius: BorderRadius.circular(25)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(greeting,
-                      style: TextStyle(
-                          color: Colors.blueGrey[100],
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold)),
-                  Text(userfullname,
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    children: <Widget>[
-                      Text(this.contract,
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.orangeAccent[100])),
-                      Visibility(
-                        visible: !isRetriveSuccess,
-                        child: RaisedButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          onPressed: () {
-                            EasyLoading.show();
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: getProportionateScreenWidth(7),
+            ),
+            HomeHeader(context, jumlahChat),
+            SizedBox(
+              height: getProportionateScreenWidth(20),
+            ),
+            Container(
+                margin: EdgeInsets.symmetric(
+                    horizontal: getProportionateScreenWidth(20)),
+                padding: EdgeInsets.symmetric(
+                    horizontal: getProportionateScreenWidth(20),
+                    vertical: getProportionateScreenWidth(15)),
+                width: double.infinity,
+                // height: 90,
+                decoration: BoxDecoration(
+                    color: kPrimaryColor,
+                    borderRadius: BorderRadius.circular(25)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(greeting,
+                        style: TextStyle(
+                            color: Colors.grey[200],
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold)),
+                    Text(userfullname,
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      children: <Widget>[
+                        Text(this.contract,
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[100])),
+                        Visibility(
+                          visible: !isRetriveSuccess,
+                          child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            onPressed: () {
+                              EasyLoading.show();
 
-                            DashboardService.reveralContract(tokenshared)
-                                .then((value) {
-                              var contractnum = value;
-                              this.changeStateContract(contractnum);
-                            });
+                              DashboardService.reveralContract(tokenshared)
+                                  .then((value) {
+                                var contractnum = value;
+                                this.changeStateContract(contractnum);
+                              });
 
-                            EasyLoading.dismiss();
-                          },
-                          textColor: Colors.white,
-                          padding: const EdgeInsets.all(0.0),
-                          color: kPrimaryColor,
-                          child: Container(
-                            padding: EdgeInsets.all(1.0),
-                            child: const Text('Reveral',
-                                style: TextStyle(fontSize: 16)),
+                              EasyLoading.dismiss();
+                            },
+                            textColor: Colors.white,
+                            padding: const EdgeInsets.all(0.0),
+                            color: kTextColor,
+                            child: Container(
+                              padding: EdgeInsets.all(1.0),
+                              child: const Text('Reveral',
+                                  style: TextStyle(fontSize: 16)),
+                            ),
                           ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              )),
-          SizedBox(
-            height: getProportionateScreenWidth(15),
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(20)),
+                        )
+                      ],
+                    )
+                  ],
+                )),
+            SizedBox(
+              height: getProportionateScreenWidth(15),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: getProportionateScreenWidth(20)),
+                child: Row(
+                  children: <Widget>[
+                    MenuBtnFull(
+                      title: "Productivity",
+                      key: josKeys1,
+                      amount: nodesamount,
+                      press: () {},
+                      unit: "Nodes",
+                      type: 1,
+                      lmenuitem: menuAttend,
+                      contract: this.contract,
+                      finalFunction: onCekManing,
+                      store: _currentLocation,
+                      optionalExt:
+                          this.contract == "No Contract" ? true : false,
+                    ),
+                    MenuBtnFull(
+                      title: "Stockist",
+                      key: josKeys2,
+                      amount: productsamount,
+                      press: () {},
+                      unit: "Unit",
+                      type: 3,
+                      lmenuitem: menuitems3,
+                      contract: this.contract,
+                      finalFunction: onCekManing,
+                      store: _currentLocation,
+                      optionalExt: !iscurrentcheckin,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: getProportionateScreenWidth(20),
+            ),
+            CardWorkLocation(
+              codeWork: currentcode,
+              namaWork: currentworkname,
+              available: iscurrentcheckin,
+            ),
+            SizedBox(
+              height: getProportionateScreenWidth(20),
+            ),
+            SectionWidget(
+              text: "Information",
+              textmore: "More",
+              press: () {},
+            ),
+            SizedBox(
+              height: getProportionateScreenWidth(10),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
               child: Row(
                 children: <Widget>[
-                  MenuBtnFull(
-                    title: "Productivity",
-                    amount: nodesamount,
-                    press: () {},
-                    unit: "Nodes",
-                    type: 1,
-                    lmenuitem: menuAttend,
-                    contract: this.contract,
-                    finalFunction: onCekManing,
-                    store: _currentLocation,
-                    optionalExt: this.contract == "No Contract" ? true : false,
-                  ),
-                  MenuBtnFull(
-                    title: "Stockist",
-                    amount: productsamount,
-                    press: () {},
-                    unit: "Unit",
-                    type: 3,
-                    lmenuitem: menuitems3,
-                    contract: this.contract,
-                    finalFunction: onCekManing,
-                    store: _currentLocation,
-                    optionalExt: !iscurrentcheckin,
-                  ),
+                  ...List.generate(
+                      lInformation.length,
+                      (index) => InformationCard(
+                            aspecRetion: 1.81,
+                            width: 320,
+                            infoObject: lInformation[index],
+                          )),
+                  SizedBox(
+                    width: getProportionateScreenWidth(20),
+                  )
                 ],
               ),
             ),
-          ),
-          SizedBox(
-            height: getProportionateScreenWidth(20),
-          ),
-          CardWorkLocation(
-            codeWork: currentcode,
-            namaWork: currentworkname,
-            available: iscurrentcheckin,
-          ),
-          SizedBox(
-            height: getProportionateScreenWidth(20),
-          ),
-          SectionWidget(
-            text: "Information",
-            textmore: "More",
-            press: () {},
-          ),
-          SizedBox(
-            height: getProportionateScreenWidth(10),
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: <Widget>[
-                ...List.generate(
-                    lInformation.length,
-                    (index) => InformationCard(
-                          aspecRetion: 1.81,
-                          width: 320,
-                          infoObject: lInformation[index],
-                        )),
-                SizedBox(
-                  width: getProportionateScreenWidth(20),
-                )
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   void initialScreen() {
@@ -544,53 +533,13 @@ class _MenuBtnFullState extends State<MenuBtnFull> {
                                   switch (value) {
                                     case 1:
                                       Navigator.push(
-                                              context,
-                                              CupertinoPageRoute(
-                                                  builder: (context) =>
-                                                      CheckInScreen(
-                                                          contract:
-                                                              widget.contract)))
-                                          .then(onGoBack);
-                                      break;
-                                    case 2:
-                                      // Navigator.push(
-                                      //         context,
-                                      //         CupertinoPageRoute(
-                                      //             builder: (context) =>
-                                      //                 CheckInScreen(
-                                      //                     contract:
-                                      //                         widget.contract)))
-                                      //     .then(onGoBack);
-                                      break;
-                                    case 3:
-                                      Navigator.push(
-                                              context,
-                                              CupertinoPageRoute(
-                                                  builder: (context) =>
-                                                      CheckInScreen(
-                                                          contract:
-                                                              widget.contract)))
-                                          .then(onGoBack);
-                                      break;
-                                    case 4:
-                                      Navigator.push(
-                                          context,
-                                          CupertinoPageRoute(
-                                              builder: (context) =>
-                                                  CheckOutDetailScreen(
-                                                    args: widget.store,
-                                                    contract: widget.contract,
-                                                  ))).then(onGoBack);
-                                      break;
-                                    case 5:
-                                      Navigator.push(
-                                              context,
-                                              CupertinoPageRoute(
-                                                  builder: (context) =>
-                                                      StockOpnameScreen(
-                                                          contract:
-                                                              widget.contract)))
-                                          .then(onGoBack);
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) => ActivityScreen(
+                                            contract: widget.contract,
+                                          ),
+                                        ),
+                                      ).then(onGoBack);
                                       break;
                                     default:
                                       break;
@@ -653,105 +602,5 @@ class _MenuBtnFullState extends State<MenuBtnFull> {
   FutureOr onGoBack(dynamic value) {
     print("Balik aning");
     globalKey.currentState.onCekManing();
-  }
-}
-
-class HelpInfoCard extends StatelessWidget {
-  const HelpInfoCard({
-    Key key,
-    @required this.categoy,
-    @required this.image,
-    @required this.numOfBrands,
-    @required this.press,
-  }) : super(key: key);
-  final String categoy, image, numOfBrands;
-  final GestureTapCallback press;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: getProportionateScreenWidth(15)),
-      child: SizedBox(
-        width: getProportionateScreenWidth(242),
-        height: getProportionateScreenWidth(100),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Stack(
-            children: [
-              Image.asset(
-                image,
-                fit: BoxFit.cover,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                      Color(0xFF343434).withOpacity(0.4),
-                      Color(0xFF343434).withOpacity(0.15)
-                    ])),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: getProportionateScreenWidth(15),
-                    vertical: getProportionateScreenWidth(10)),
-                child: Text.rich(
-                    TextSpan(style: TextStyle(color: Colors.white), children: [
-                  TextSpan(
-                    text: "$categoy\n",
-                    style: TextStyle(
-                        fontSize: getProportionateScreenWidth(18),
-                        fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(text: "$numOfBrands")
-                ])),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CategoryCard extends StatelessWidget {
-  const CategoryCard({
-    Key key,
-    @required this.icon,
-    @required this.text,
-    @required this.press,
-  }) : super(key: key);
-
-  final String icon, text;
-  final GestureTapCallback press;
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: press,
-      child: SizedBox(
-        width: getProportionateScreenWidth(55),
-        child: Column(
-          children: <Widget>[
-            AspectRatio(
-              aspectRatio: 1,
-              child: Container(
-                padding: EdgeInsets.all(getProportionateScreenWidth(15)),
-                decoration: BoxDecoration(
-                    color: Color(0xFFFFECDF),
-                    borderRadius: BorderRadius.circular(10)),
-                child: SvgPicture.asset(icon),
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              text,
-              textAlign: TextAlign.center,
-            )
-          ],
-        ),
-      ),
-    );
   }
 }

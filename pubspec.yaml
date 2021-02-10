@@ -32,6 +32,8 @@ dependencies:
   geolocator: ^6.1.14
   geocoder: ^0.2.1
   flutter_slidable: ^0.5.4
+  map: ^0.2.0+1
+  cached_network_image: ^2.5.0
   flutter:
     sdk: flutter
 

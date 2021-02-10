@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:resap_admin/constant.dart';
+import 'package:resap_admin/screen/activity/activity_screen.dart';
 import 'package:resap_admin/screen/dashboard/components/body.dart';
 import 'package:resap_admin/screen/history/history_screen.dart';
 import 'package:resap_admin/screen/messaging/messaging_screen.dart';
@@ -60,95 +61,94 @@ class _DashboardScreenState extends State<DashboardScreen>
       ),
       child: Scaffold(
         body: Body(),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.fromLTRB(9.0, 0.0, 9.0, 25.0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(50)),
-            child: Container(
-              color: Colors.black54.withOpacity(0.10),
-              child: TabBar(
-                onTap: (index) {
-                  print(">>> Index Bar $index");
-                  switch (index) {
-                    case 0:
-                      break;
-                    case 1:
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) =>
-                                  TaggingLocationScreen())).then(onGoBack);
-                      break;
-                    case 2:
-                      // Navigator.pushNamed(context, MessagingScreen.routeName);
-                      Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                  builder: (context) => MessagingScreen()))
-                          .then(onGoBack);
-                      break;
-                    case 3:
-                      // Navigator.pushNamed(context, HistoryScreen.routeName);
-                      Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                  builder: (context) => HistoryScreen()))
-                          .then(onGoBack);
-                      break;
-                    case 4:
-                      // Navigator.pushNamed(context, ProfileUserScreen.routeName);
-                      Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                  builder: (context) => ProfileUserScreen()))
-                          .then(onGoBack);
-                      break;
-                    default:
-                  }
-                },
-                labelStyle: TextStyle(fontSize: 8.0),
-                indicatorColor: Colors.transparent,
-                unselectedLabelColor: Colors.grey,
-                labelColor: kPrimaryColor,
-                tabs: [
-                  Tab(
-                    icon: Icon(
-                      Icons.home,
-                      size: 24.0,
-                    ),
-                    text: 'Home',
+        bottomNavigationBar: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(50)),
+          child: Container(
+            color: Colors.black54.withOpacity(0.10),
+            child: TabBar(
+              onTap: (index) {
+                print(">>> Index Bar $index");
+                switch (index) {
+                  case 0:
+                    break;
+                  case 1:
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        // builder: (context) => TaggingLocationScreen(),
+                        builder: (context) => ActivityScreen(),
+                      ),
+                    ).then(onGoBack);
+                    break;
+                  case 2:
+                    // Navigator.pushNamed(context, MessagingScreen.routeName);
+                    Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => MessagingScreen()))
+                        .then(onGoBack);
+                    break;
+                  case 3:
+                    // Navigator.pushNamed(context, HistoryScreen.routeName);
+                    Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => HistoryScreen()))
+                        .then(onGoBack);
+                    break;
+                  case 4:
+                    // Navigator.pushNamed(context, ProfileUserScreen.routeName);
+                    Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => ProfileUserScreen()))
+                        .then(onGoBack);
+                    break;
+                  default:
+                }
+              },
+              labelStyle: TextStyle(fontSize: 8.0),
+              indicatorColor: Colors.transparent,
+              unselectedLabelColor: Colors.grey,
+              labelColor: kPrimaryColor,
+              tabs: [
+                Tab(
+                  icon: Icon(
+                    Icons.home,
+                    size: 24.0,
                   ),
-                  Tab(
-                    icon: Icon(
-                      Icons.location_on,
-                      size: 24.0,
-                    ),
-                    text: 'Location',
+                  text: 'Home',
+                ),
+                Tab(
+                  icon: Icon(
+                    Icons.location_on,
+                    size: 24.0,
                   ),
-                  Tab(
-                    icon: Icon(
-                      Icons.chat,
-                      size: 24.0,
-                    ),
-                    text: 'Chat',
+                  text: 'Location',
+                ),
+                Tab(
+                  icon: Icon(
+                    Icons.chat,
+                    size: 24.0,
                   ),
-                  Tab(
-                    icon: Icon(
-                      Icons.history,
-                      size: 24.0,
-                    ),
-                    text: 'History',
+                  text: 'Chat',
+                ),
+                Tab(
+                  icon: Icon(
+                    Icons.history,
+                    size: 24.0,
                   ),
-                  Tab(
-                    icon: Icon(
-                      Icons.account_circle_outlined,
-                      size: 24.0,
-                    ),
-                    text: 'Profile',
+                  text: 'History',
+                ),
+                Tab(
+                  icon: Icon(
+                    Icons.account_circle_outlined,
+                    size: 24.0,
                   ),
-                ],
-                controller: _tabController,
-              ),
+                  text: 'Profile',
+                ),
+              ],
+              controller: _tabController,
             ),
           ),
         ),
