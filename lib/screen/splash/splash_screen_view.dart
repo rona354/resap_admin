@@ -18,12 +18,8 @@ class _SplashScreenViewState extends State<SplashScreenView> {
   @override
   void initState() {
     // TODO: implement initState
-
     super.initState();
     print("#################### SPLASH NIH");
-    // Navigator.pushReplacementNamed(context, '/sign_in'));
-    // Timer(Duration(seconds: 3),
-    //     () => Navigator.pushReplacementNamed(context, SignInScreen.routeName));
     getPreferences().then(routingToWhere);
   }
 
@@ -33,30 +29,25 @@ class _SplashScreenViewState extends State<SplashScreenView> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-          child: Image.asset(
-        "assets/images/welcome.png",
-        width: 200.0,
-        height: 200.0,
-      )),
+        child: Image.asset(
+          "assets/images/welcome.png",
+          width: 200.0,
+          height: 200.0,
+        ),
+      ),
     );
   }
 
   void routingToWhere(String token) {
-    // token != null
-    //     ? Navigator.pushReplacementNamed(context, DashboardScreen.routeName)
-    //     : Navigator.pushReplacementNamed(context, SignInScreen.routeName);
     print("#################### Using Preference ${token}");
-    // Navigator.pushReplacementNamed(context, SignInScreen.routeName);
     if (token == null || token == "exp") {
       clearPref().then((value) {
         if (value)
           Navigator.pushReplacementNamed(context, SignInScreen.routeName);
       });
     }
-
     ServiceAuthentication.authByPreference(token).then((value) {
       String _prference = value;
-      // print("Di splash : ${_prference}");
       if ("exp" == _prference) {
         Navigator.pushReplacementNamed(context, SignInScreen.routeName);
       } else {
@@ -64,14 +55,13 @@ class _SplashScreenViewState extends State<SplashScreenView> {
         if (_prference.startsWith('DioError')) {
           setState(() {});
         } else {
-          // print(" value from login preference : ${_prference.toString()}");
           saveCredentialPreference(_prference.toString()).then(
-              (bool committed) => Navigator.pushReplacementNamed(
-                  context, DashboardScreen.routeName));
+            (bool committed) => Navigator.pushReplacementNamed(
+                context, DashboardScreen.routeName),
+          );
         }
         Navigator.pushReplacementNamed(context, DashboardScreen.routeName);
       }
-      // print(_prference.toString());
     });
   }
 

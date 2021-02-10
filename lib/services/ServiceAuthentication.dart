@@ -3,10 +3,10 @@ import 'package:resap_admin/modelsfromjson/Member.dart';
 
 class ServiceAuthentication {
   static const String urlBase = 'https://resap.kmselaras.com/apiresap/v1/';
+
   static Future<String> authByEmail(email, password) async {
     try {
       // print("Token di service ****************** ${tokenid}");
-
       final resp = await Dio().post(urlBase + "auth/getauthemail",
           data: {"credential": email, "secret": password});
       var jsonData = resp.data;
