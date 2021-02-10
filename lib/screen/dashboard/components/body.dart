@@ -85,10 +85,12 @@ class _AllControllState extends State<AllControll> {
             SizedBox(
               height: getProportionateScreenWidth(7),
             ),
+            // * HOME HEADER
             HomeHeader(context, jumlahChat),
             SizedBox(
               height: getProportionateScreenWidth(20),
             ),
+            // * CARD
             Container(
                 margin: EdgeInsets.symmetric(
                     horizontal: getProportionateScreenWidth(20)),

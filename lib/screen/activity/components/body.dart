@@ -3,6 +3,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:latlng/latlng.dart';
 import 'package:map/map.dart';
+import 'package:resap_admin/constant.dart';
+import 'package:resap_admin/screen/activity/components/carousel_slider.dart';
 
 class BodyActivity extends StatefulWidget {
   final String contract;
@@ -66,36 +68,51 @@ class _BodyActivityState extends State<BodyActivity> {
     //final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
     //controller.tileSize = 256 / devicePixelRatio;
 
-    return Scaffold(
-      body: GestureDetector(
-        onDoubleTap: _onDoubleTap,
-        onScaleStart: _onScaleStart,
-        onScaleUpdate: _onScaleUpdate,
-        onScaleEnd: (details) {
-          print(
-            "Location: ${controller.center.latitude}, ${controller.center.longitude}",
-          );
-        },
-        child: Stack(
-          children: [
-            Map(
-              controller: controller,
-              builder: (context, x, y, z) {
-                final url =
-                    'https://www.google.com/maps/vt/pb=!1m4!1m3!1i$z!2i$x!3i$y!2m3!1e0!2sm!3i420120488!3m7!2sen!5e1105!12m4!1e68!2m2!1sset!2sRoadmap!4e0!5m1!1e0!23i4111425';
+    return Stack(
+      children: [
+        GestureDetector(
+          onDoubleTap: _onDoubleTap,
+          onScaleStart: _onScaleStart,
+          onScaleUpdate: _onScaleUpdate,
+          onScaleEnd: (details) {
+            print(
+              "Location: ${controller.center.latitude}, ${controller.center.longitude}",
+            );
+          },
+          child: Map(
+            controller: controller,
+            builder: (context, x, y, z) {
+              final url =
+                  'https://www.google.com/maps/vt/pb=!1m4!1m3!1i$z!2i$x!3i$y!2m3!1e0!2sm!3i420120488!3m7!2sen!5e1105!12m4!1e68!2m2!1sset!2sRoadmap!4e0!5m1!1e0!23i4111425';
 
-                return CachedNetworkImage(
-                  imageUrl: url,
-                  fit: BoxFit.cover,
-                );
-              },
-            ),
-            Center(
-              child: Icon(Icons.close, color: Colors.purple),
-            ),
-          ],
+              return CachedNetworkImage(
+                imageUrl: url,
+                fit: BoxFit.cover,
+              );
+            },
+          ),
         ),
-      ),
+        // Center(
+        //   child: Icon(Icons.close, color: Colors.purple),
+        // ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+              padding: EdgeInsets.only(
+                bottom: kDefaultPadding,
+              ),
+              width: MediaQuery.of(context).size.width,
+              height: 150.0,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  CarouselSlider(),
+                  CarouselSlider(),
+                  CarouselSlider(),
+                ],
+              )),
+        )
+      ],
     );
   }
 }
